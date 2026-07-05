@@ -30,7 +30,7 @@ A Laravel-based multi-tenant URL Shortener with role-based authentication.
 Clone the repository
 
 ```bash
-git clone https://github.com/your-username/url-shortener.git
+[git clone https://github.com/your-username/url-shortener.git](https://github.com/rahulroot7/url-shortener.git)
 ```
 
 Go to project
