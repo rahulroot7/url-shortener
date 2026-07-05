@@ -141,3 +141,39 @@ based on selected date filters.
 - Tailwind CSS
 - Alpine.js
 - Laravel Excel(MaatExel)
+
+## Mail Configuration (Mailtrap)
+
+This project uses **Mailtrap** for sending invitation emails during local development.
+
+### 1. Create a Mailtrap Account
+
+Sign up at: https://mailtrap.io/
+
+### 2. Create a Sandbox Inbox
+
+Create a new Sandbox Inbox and copy the SMTP credentials.
+
+### 3. Update `.env`
+
+Replace the mail configuration with your Mailtrap SMTP credentials.
+
+```env
+MAIL_MAILER=smtp
+MAIL_SCHEME=null
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=YOUR_MAILTRAP_USERNAME
+MAIL_PASSWORD=YOUR_MAILTRAP_PASSWORD
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="noreply@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+### 4. Test Invitation Email
+
+1. Log in as Super Admin or Admin.
+2. Send an invitation to any email address.
+3. Open your Mailtrap Sandbox Inbox.
+4. Verify that the invitation email is received.
+5. Click the invitation link to complete the registration process.
