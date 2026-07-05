@@ -177,3 +177,14 @@ MAIL_FROM_NAME="${APP_NAME}"
 3. Open your Mailtrap Sandbox Inbox.
 4. Verify that the invitation email is received.
 5. Click the invitation link to complete the registration process.
+
+## AI Usage
+
+The following AI tool was used during development:
+
+- **ChatGPT**
+  - Assisted with Laravel best practices.
+  - Helped understand Eloquent relationships.
+  - Assisted with validation, routing, invitation workflow, and Excel export implementation.
+
+All application logic, architecture decisions, implementation, testing, debugging, and integration were completed and verified manually.
