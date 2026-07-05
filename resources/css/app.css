@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+button.download-btn {
+    color: white !important;
+    background-color: #2563eb;
+}
