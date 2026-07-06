@@ -188,3 +188,7 @@ The following AI tool was used during development:
   - Assisted with validation, routing, invitation workflow, and Excel export implementation.
 
 All application logic, architecture decisions, implementation, testing, debugging, and integration were completed and verified manually.
+
+- **Credencials Super Admin**
+Email: superadmin@example.com
+PAssword: password
