@@ -77,50 +77,62 @@ class DashboardController extends Controller
         }
 
         if ($user->isAdmin()) {
-            $query = ShortUrl::with('user')
-                ->where('company_id', $user->company_id);
 
-            switch ($request->filter ?? 'this_month') {
+        // Get logged-in admin + all of his members
+        $allowedUserIds = $user->members()
+            ->pluck('id')
+            ->push($user->id);
 
-                case 'today':
-                    $query->whereDate('created_at', today());
-                    break;
+        $query = ShortUrl::with(['company', 'user'])
+            ->whereIn('user_id', $allowedUserIds);
 
-                case 'last_week':
-                    $query->whereBetween('created_at', [
-                        now()->subWeek()->startOfWeek(),
-                        now()->subWeek()->endOfWeek(),
-                    ]);
-                    break;
+        switch ($request->filter ?? 'this_month') {
 
-                case 'last_month':
-                    $query->whereMonth('created_at', now()->subMonth()->month)
-                        ->whereYear('created_at', now()->subMonth()->year);
-                    break;
+            case 'today':
+                $query->whereDate('created_at', today());
+                break;
 
-                case 'this_month':
-                default:
-                    $query->whereMonth('created_at', now()->month)
-                        ->whereYear('created_at', now()->year);
-                    break;
-            }
+            case 'last_week':
+                $query->whereBetween('created_at', [
+                    now()->subWeek()->startOfWeek(),
+                    now()->subWeek()->endOfWeek(),
+                ]);
+                break;
 
-            $shortUrls = $query
-                ->latest()
-                ->limit(5)
-                ->get();
-            
+            case 'last_month':
+                $query->whereMonth('created_at', now()->subMonth()->month)
+                    ->whereYear('created_at', now()->subMonth()->year);
+                break;
 
-            $members = User::where('company_id', $user->company_id)
-                ->with('role')
-                ->withCount('shortUrls')
-                ->withSum('shortUrls', 'hits')
-                ->latest()
-                ->get();
-
-            $roles = Role::select('id', 'name')->where('slug', '!=', 'super_admin')->get();
-            return view('dashboard.admin', compact('shortUrls', 'members', 'roles'));
+            case 'this_month':
+            default:
+                $query->whereMonth('created_at', now()->month)
+                    ->whereYear('created_at', now()->year);
+                break;
         }
+
+        $shortUrls = $query
+            ->latest()
+            ->limit(5)
+            ->get();
+
+        $members = $user->members()
+            ->with('role')
+            ->withCount('shortUrls')
+            ->withSum('shortUrls', 'hits')
+            ->latest()
+            ->get();
+
+        $roles = Role::where('slug', '!=', 'super_admin')
+            ->select('id', 'name')
+            ->get();
+
+        return view('dashboard.admin', compact(
+            'shortUrls',
+            'members',
+            'roles'
+        ));
+    }
 
         if ($user->isMember()) {
             $query = ShortUrl::with('company')

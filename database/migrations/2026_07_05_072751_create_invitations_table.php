@@ -24,6 +24,10 @@ return new class extends Migration
             $table->foreignId('invited_by')
                 ->constrained('users')
                 ->cascadeOnDelete();
+            $table->foreignId('parent_id')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
             $table->string('name');
             $table->string('email');
             $table->string('token')->unique();

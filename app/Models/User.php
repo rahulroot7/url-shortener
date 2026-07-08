@@ -22,6 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'company_id',
         'role_id',
+        'parent_id',
         'name',
         'email',
         'password',
@@ -67,6 +68,16 @@ class User extends Authenticatable
     public function shortUrls()
     {
         return $this->hasMany(ShortUrl::class);
+    }
+
+    public function manager()
+    {
+        return $this->belongsTo(User::class,'parent_id');
+    }
+
+    public function members()
+    {
+        return $this->hasMany(User::class,'parent_id');
     }
 
     // Helper For role 

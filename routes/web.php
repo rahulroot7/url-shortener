@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/generate', [ShortUrlController::class, 'store'])->name('short-url.store')->middleware('role:admin,member');
 });
 Route::middleware(['auth', 'role:super_admin'])->prefix('super-admin')->group(function () {
     Route::post('/invitations', [InvitationController::class, 'store'])->name('superadmin.invitations.store');
@@ -36,7 +37,7 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('super-admin')->group(fu
 
 Route::middleware(['auth','role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::post('/generate', [ShortUrlController::class, 'store'])->name('short-url.store');
+    // Route::post('/generate', [ShortUrlController::class, 'store'])->name('short-url.store');
     Route::get('/view-generate-url', [ShortUrlController::class, 'view'])->name('short-url.view');
     Route::get('/view-team-member', [ShortUrlController::class, 'viewTeamMember'])->name('viewTeamMember');
     Route::post('/invitations', [InvitationController::class, 'store'])->name('invitations.store');
@@ -48,7 +49,7 @@ Route::middleware(['auth','role:admin'])->prefix('admin')->name('admin.')->group
 
 Route::middleware(['auth','role:member'])->prefix('member')->name('member.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::post('/generate-url', [ShortUrlController::class, 'storeMember'])->name('short-url-member.store');
+    // Route::post('/generate-url', [ShortUrlController::class, 'storeMember'])->name('short-url-member.store');
     Route::get('/member/short-urls/download', [DashboardController::class, 'downloadMember'])->name('short-urls.download');
     Route::get('/member/short-urls', [DashboardController::class, 'index'])->name('short-urls.filter');
 });

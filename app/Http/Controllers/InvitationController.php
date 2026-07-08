@@ -65,12 +65,13 @@ class InvitationController extends Controller
             $role = Role::where('slug', $request->role)->first();
 
             $invitation = Invitation::create([
-                'company_id' => $user->company_id,
-                'role_id' => $request->role_id,
+                'company_id' => auth()->user()->company_id,
                 'invited_by' => $user->id,
-                'name' => $request->name,
-                'email' => $request->email,
-                'token' => Str::random(64),
+                'parent_id'  => auth()->id(),
+                'role_id'    => 3,
+                'name'       => $request->name,
+                'email'      => $request->email,
+                'token'      => Str::uuid(),
             ]);
 
             Mail::to($invitation->email)->send(new InvitationMail($invitation));
@@ -144,6 +145,7 @@ class InvitationController extends Controller
             User::create([
                 'company_id' => $companyId,
                 'role_id'    => $invitation->role_id,
+                'parent_id'  => $invitation->parent_id,
                 'name'       => $invitation->name,
                 'email'      => $invitation->email,
                 'password'   => Hash::make($request->password),

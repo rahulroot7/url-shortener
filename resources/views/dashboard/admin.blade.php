@@ -171,7 +171,7 @@
                         @click.outside="openModal = false"
                         class="bg-white rounded-lg shadow-xl w-full max-w-2xl">
 
-                        <form action="{{ route('admin.short-url.store') }}" method="POST">
+                        <form action="{{ route('short-url.store') }}" method="POST">
 
                             @csrf
 
